@@ -1,0 +1,30 @@
+package com.example.patientservice.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable()) // Tắt CSRF cho API (phổ biến trong REST API)
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/patients").permitAll() // Cho phép endpoint tạo patient mà không cần auth
+                	.requestMatchers("/api/patients/user/{userId}").permitAll()
+                // Bạn có thể thêm các rule khác ở đây, ví dụ:
+                // .requestMatchers("/api/patients/**").authenticated() // Yêu cầu xác thực cho các thao tác khác
+                .anyRequest().authenticated() // Mặc định yêu cầu xác thực cho tất cả các request khác
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Không dùng session
+
+        return http.build();
+    }
+}

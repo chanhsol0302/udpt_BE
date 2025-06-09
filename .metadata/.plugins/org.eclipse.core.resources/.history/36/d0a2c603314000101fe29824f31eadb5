@@ -1,0 +1,92 @@
+package service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+//import org.springframework.web.client.RestTemplate;
+
+import com.example.authservice.dto.LoginRequest;
+import com.example.authservice.dto.LoginResponse;
+import com.example.authservice.model.Session;
+import com.example.authservice.repository.SessionRepository;
+import com.example.authservice.security.JwtUtil;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset; // Để chuyển LocalDateTime sang epoch milliseconds
+//import java.util.HashMap;
+//import java.util.Map;
+import java.util.UUID;
+
+@Service
+public class AuthService {
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private SessionRepository sessionRepo;
+
+    // Giả lập hoặc kết nối tới User Service
+    // Trong môi trường microservices, bạn sẽ gọi đến User Service để xác thực
+    // For now, we'll simulate a valid user.
+    // Uncomment và sử dụng RestTemplate hoặc WebClient khi bạn có User Service thật
+    // private final RestTemplate restTemplate;
+    //
+    // @Autowired
+    // public AuthService(RestTemplate restTemplate) {
+    //     this.restTemplate = restTemplate;
+    // }
+
+    public LoginResponse authenticate(LoginRequest request) {
+        // Bước 1: Xác thực người dùng (Email/Password)
+        // *** QUAN TRỌNG: Ở đây bạn sẽ GỌI ĐẾN USER SERVICE ***
+        // Ví dụ, bạn có thể gửi một request HTTP POST tới User Service để kiểm tra
+        // email và password.
+        // Nếu bạn dùng RestTemplate:
+        // String userServiceUrl = "http://localhost:8082/user-service/api/users/authenticate";
+        // Map<String, String> authRequest = new HashMap<>();
+        // authRequest.put("email", request.getEmail());
+        // authRequest.put("password", request.getPassword());
+        //
+        // try {
+        //     // Giả định User Service trả về một đối tượng có userId và role
+        //     // Ví dụ: class UserAuthResponse { private UUID userId; private String role; }
+        //     UserAuthResponse userAuthResponse = restTemplate.postForObject(userServiceUrl, authRequest, UserAuthResponse.class);
+        //     if (userAuthResponse == null) {
+        //         throw new RuntimeException("Invalid credentials or user not found.");
+        //     }
+        //     userId = userAuthResponse.getUserId();
+        //     role = userAuthResponse.getRole();
+        // } catch (Exception e) {
+        //     throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
+        // }
+
+        // *** Hiện tại, chúng ta giả lập người dùng hợp lệ và thông tin role/id ***
+        // Trong thực tế, các giá trị này sẽ đến từ User Service sau khi xác thực thành công.
+        UUID userId = UUID.randomUUID(); // Giả lập userId từ User Service
+        String role = "PATIENT"; // Giả lập role từ User Service
+        String username = request.getEmail(); // Giả lập username
+
+        // Bước 2: Tạo JWT Token
+        String token = jwtUtil.generateToken(username, userId, role);
+
+        // Bước 3: Lưu Session vào Database
+        Session session = new Session();
+        session.setId(UUID.randomUUID()); // ID của session
+        session.setUserId(userId); // Liên kết với userId từ User Service
+        session.setToken(token);
+        // Thời gian hết hạn của session tương ứng với thời gian hết hạn của JWT
+        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(60); // 1 giờ
+        session.setExpiresAt(expiresAt);
+        sessionRepo.save(session); // Lưu session vào DB
+
+        // Bước 4: Chuẩn bị LoginResponse để gửi về client
+        LoginResponse response = new LoginResponse();
+        response.setToken(token);
+        // Chuyển LocalDateTime sang epoch milliseconds cho client
+        response.setExpiresAt(expiresAt.toInstant(ZoneOffset.UTC).toEpochMilli());
+        response.setUsername(username);
+        response.setRole(role);
+
+        return response;
+    }
+}

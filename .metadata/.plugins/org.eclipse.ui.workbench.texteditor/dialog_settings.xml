@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="hasShownOverlayPopupBefore" value="true"/>
+	<section name="java.lang.Class">
+		<item key="selection" value="public ResponseEntity&lt;PatientResponse&gt; getPatientById(@PathVariable UUID id) {"/>
+		<item key="replaceBarOpen" value="false"/>
+		<list key="findhistory">
+			<item value="public ResponseEntity&lt;PatientResponse&gt; getPatientById(@PathVariable UUID id) {"/>
+			<item value="@GetMapping(&quot;/{id}&quot;)"/>
+			<item value="public Optional&lt;PatientResponse&gt; getPatientByUserId(UUID userId) {"/>
+			<item value="public Optional&lt;PatientResponse&gt; getPatientById(UUID id) {"/>
+		</list>
+	</section>
+</section>

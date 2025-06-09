@@ -1,0 +1,100 @@
+package com.example.userservice.service;
+
+import com.example.userservice.client.PatientServiceClient;
+import com.example.userservice.dto.PatientCreateRequest; // Import dto và Feign Client
+import com.example.userservice.dto.UserAuthenticateRequest;
+import com.example.userservice.dto.UserRegisterRequest;
+import com.example.userservice.dto.UserResponse;
+import com.example.userservice.dto.UserUpdateRequest;
+import com.example.userservice.model.User;
+import com.example.userservice.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public UserResponse registerUser(UserRegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("Email already registered.");
+        }
+
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setRole(request.getRole());
+
+        User savedUser = userRepository.save(user);
+        return convertToUserResponse(savedUser);
+    }
+
+    public Optional<UserResponse> getUserById(UUID id) {
+        return userRepository.findById(id).map(this::convertToUserResponse);
+    }
+
+    public UserResponse updateUser(UUID id, UserUpdateRequest request) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+
+        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
+            if (!request.getEmail().equals(existingUser.getEmail()) && userRepository.existsByEmail(request.getEmail())) {
+                throw new IllegalArgumentException("Email already registered by another user.");
+            }
+            existingUser.setEmail(request.getEmail());
+        }
+
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            existingUser.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        }
+
+        if (request.getRole() != null) {
+            existingUser.setRole(request.getRole());
+        }
+
+        User updatedUser = userRepository.save(existingUser);
+        return convertToUserResponse(updatedUser);
+    }
+
+    public void deleteUser(UUID id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("User not found with ID: " + id);
+        }
+        userRepository.deleteById(id);
+    }
+
+    public UserResponse authenticateUser(UserAuthenticateRequest request) {
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("User not found.");
+        }
+
+        User user = userOptional.get();
+        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+            throw new IllegalArgumentException("Invalid password.");
+        }
+
+        // Nếu xác thực thành công, trả về UserResponse
+        return convertToUserResponse(user);
+    }
+    
+    private UserResponse convertToUserResponse(User user) {
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        response.setRole(user.getRole());
+        response.setCreatedAt(user.getCreatedAt());
+        response.setUpdatedAt(user.getUpdatedAt());
+        return response;
+    }
+}

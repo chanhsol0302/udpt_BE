@@ -1,0 +1,99 @@
+package com.example.patientservice.security;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User; // Sử dụng User của Spring Security
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter; // Đảm bảo filter chạy một lần duy nhất cho mỗi request
+
+import java.io.IOException;
+import java.util.Collections; // Tạo Authority trống nếu không có roles cụ thể
+import java.util.UUID;
+
+@Component
+public class JwtAuthFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private JwtUtil jwtUtil; // Inject JwtUtil của bạn
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
+        final String authHeader = request.getHeader("Authorization");
+        final String jwt;
+        String username = null;
+        UUID userId = null;
+        String role = null;
+
+        // Kiểm tra header Authorization
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            // Nếu không có token hoặc sai định dạng, chuyển tiếp request (các filter khác hoặc endpoint permitAll)
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        jwt = authHeader.substring(7); // Trích xuất token (bỏ "Bearer ")
+
+        // Xác thực Token
+        if (!jwtUtil.validateToken(jwt)) {
+            // Token không hợp lệ (hết hạn, sai chữ ký)
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Invalid or expired token.");
+            return;
+        }
+
+        try {
+            // Trích xuất thông tin từ Token
+            username = jwtUtil.extractUsername(jwt);
+            userId = jwtUtil.extractUserId(jwt);
+            role = jwtUtil.extractRole(jwt);
+        } catch (Exception e) {
+            // Lỗi khi trích xuất claims
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Invalid token structure or missing claims: " + e.getMessage());
+            return;
+        }
+
+        // Thiết lập Authentication vào SecurityContextHolder
+        // Chỉ thiết lập nếu người dùng chưa được xác thực
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // Tạo UserDetails tạm thời từ thông tin trong token
+            // Mật khẩu được bỏ qua vì đã xác thực bằng token
+            // Quyền hạn (Authorities) được tạo từ role
+            UserDetails userDetails = new User(
+                username,
+                "", // Mật khẩu là rỗng vì đã xác thực qua token
+                Collections.singletonList(() -> "ROLE_" + role) // Ví dụ: "ROLE_PATIENT", "ROLE_DOCTOR"
+            );
+
+            // Tạo đối tượng xác thực
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null, // Credential là null vì đã xác thực qua token
+                    userDetails.getAuthorities()
+            );
+            // Thêm chi tiết request vào đối tượng xác thực
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+            // Lưu userId và role vào request attributes để Controller có thể dễ dàng lấy
+            request.setAttribute("userIdFromToken", userId);
+            request.setAttribute("roleFromToken", role);
+
+            // Thiết lập đối tượng xác thực vào SecurityContextHolder
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
+
+        // Chuyển tiếp request đến các filter khác trong chuỗi hoặc đến Controller
+        filterChain.doFilter(request, response);
+    }
+}

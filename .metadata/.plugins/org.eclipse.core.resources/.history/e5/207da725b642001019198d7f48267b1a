@@ -1,0 +1,78 @@
+package com.example.patientservice.security;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.function.Function;
+import java.util.UUID;
+
+@Component
+public class JwtUtil {
+    // Khóa bí mật JWT, được lấy từ application.properties
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
+
+    // Lấy đối tượng Key từ khóa bí mật
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    // Trích xuất một claim cụ thể từ token
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    // Trích xuất tất cả các claims từ token
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    // Trích xuất username (subject) từ token
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    // Trích xuất userId từ token (giả định Auth Service đã thêm claim "userId")
+    public UUID extractUserId(String token) {
+        return UUID.fromString(extractClaim(token, claims -> claims.get("userId", String.class)));
+    }
+
+    // Trích xuất role từ token (giả định Auth Service đã thêm claim "role")
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
+    // Trích xuất ngày hết hạn của token
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    // Kiểm tra xem token đã hết hạn chưa
+    public Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    // Kiểm tra tính hợp lệ của token
+    public Boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            // Log lỗi chi tiết hơn nếu cần
+            System.err.println("JWT Validation Error: " + e.getMessage());
+            return false;
+        }
+    }
+}

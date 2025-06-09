@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.example.userservice.client.PatientServiceClient"/>
+    <fullyQualifiedTypeName name="com.example.userservice.dto.PatientCreateRequest"/>
+    <fullyQualifiedTypeName name="org.hibernate.annotations.CreationTimestamp"/>
+    <fullyQualifiedTypeName name="jakarta.validation.constraints.NotBlank"/>
+    <fullyQualifiedTypeName name="jakarta.validation.constraints.PastOrPresent"/>
+    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
+    <fullyQualifiedTypeName name="com.example.patientservice.repository.PatientRepository"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowire"/>
+    <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
+    <fullyQualifiedTypeName name="com.example.patientservice.security.jwt.JwtAuthEntryPoint"/>
+    <fullyQualifiedTypeName name="com.example.patientservice.security.jwt.JwtAuthFilter"/>
+</qualifiedTypeNameHistroy>
