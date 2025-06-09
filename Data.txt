@@ -1,0 +1,39 @@
+CREATE TABLE specialties (
+    id BINARY(16) PRIMARY KEY,
+    name VARCHAR(191) NOT NULL UNIQUE,
+    description VARCHAR(191)
+);
+
+CREATE TABLE doctors (
+    id BINARY(16) PRIMARY KEY,
+    user_id BINARY(16),
+    name VARCHAR(255) NOT NULL,
+    specialty_id BINARY(16) NOT NULL,
+	FOREIGN KEY (specialty_id) REFERENCES specialties(id)
+);
+
+INSERT INTO specialties (id, name, description) VALUES
+(UUID_TO_BIN('770e8400-e29b-41d4-a716-446655440001'), 'Cardiology', 'Chuyên khoa tim mạch, điều trị các bệnh liên quan đến tim và mạch máu'),
+(UUID_TO_BIN('770e8400-e29b-41d4-a716-446655440002'), 'Neurology', 'Chuyên khoa thần kinh, điều trị các bệnh liên quan đến hệ thần kinh'),
+(UUID_TO_BIN('770e8400-e29b-41d4-a716-446655440003'), 'Orthopedics', 'Chuyên khoa xương khớp, điều trị các bệnh liên quan đến xương và khớp');
+
+INSERT INTO doctors (id, user_id, name, specialty_id) VALUES
+(
+  UUID_TO_BIN('880e8400-e29b-41d4-a716-446655440001'),
+  UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440003'),
+  'BS. Le Van Ai',
+  UUID_TO_BIN('770e8400-e29b-41d4-a716-446655440001')
+),
+(
+  UUID_TO_BIN('880e8400-e29b-41d4-a716-446655440002'),
+  UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440004'),
+  'BS. Pham Thi My Ngoc',
+  UUID_TO_BIN('770e8400-e29b-41d4-a716-446655440002')
+),
+(
+  UUID_TO_BIN('880e8400-e29b-41d4-a716-446655440003'),
+  UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440009'),
+  'BS. Nguyen Thi Tuyet Minh',
+  UUID_TO_BIN('770e8400-e29b-41d4-a716-446655440003')
+);
+

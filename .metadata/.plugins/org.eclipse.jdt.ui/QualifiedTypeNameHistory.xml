@@ -12,4 +12,6 @@
     <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
     <fullyQualifiedTypeName name="com.example.patientservice.security.jwt.JwtAuthEntryPoint"/>
     <fullyQualifiedTypeName name="com.example.patientservice.security.jwt.JwtAuthFilter"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+    <fullyQualifiedTypeName name="com.example.doctorservice.dto.DoctorDTO"/>
 </qualifiedTypeNameHistroy>
