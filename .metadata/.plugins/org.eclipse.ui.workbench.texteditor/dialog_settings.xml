@@ -2,9 +2,10 @@
 <section name="Workbench">
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<section name="java.lang.Class">
-		<item key="selection" value="public ResponseEntity&lt;PatientResponse&gt; getPatientById(@PathVariable UUID id) {"/>
+		<item key="selection" value="public List&lt;DoctorDTO&gt; getDoctorsBySpecialtyId(UUID specialtyId) {"/>
 		<item key="replaceBarOpen" value="false"/>
 		<list key="findhistory">
+			<item value="public List&lt;DoctorDTO&gt; getDoctorsBySpecialtyId(UUID specialtyId) {"/>
 			<item value="public ResponseEntity&lt;PatientResponse&gt; getPatientById(@PathVariable UUID id) {"/>
 			<item value="@GetMapping(&quot;/{id}&quot;)"/>
 			<item value="public Optional&lt;PatientResponse&gt; getPatientByUserId(UUID userId) {"/>

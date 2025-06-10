@@ -37,3 +37,16 @@ INSERT INTO doctors (id, user_id, name, specialty_id) VALUES
   UUID_TO_BIN('770e8400-e29b-41d4-a716-446655440003')
 );
 
+----------------------appointment_services------------------------------
+create table appointments (
+	id BINARY(16) PRIMARY KEY,
+    patient_id BINARY(16) NOT NULL,
+    doctor_id BINARY(16) NOT NULL,
+    specialty_id BINARY(16) NOT NULL,
+    appointment_date DATE NOT NULL,
+    appointment_shift INT NOT NULL,
+    status INT NOT NULL
+)
+
+
+

@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.UUID;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api/doctors")
+@CrossOrigin(origins = "http://localhost")
 public class DoctorController {
 	@Autowired
     private DoctorService doctorService;
