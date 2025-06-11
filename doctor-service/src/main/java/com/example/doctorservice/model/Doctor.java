@@ -12,8 +12,8 @@ public class Doctor {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID user_id;
+    @Column(name = "user_id", nullable = false, unique = true)
+    private UUID userId;
 
     @Column(nullable = false, length = 191)
     private String name;

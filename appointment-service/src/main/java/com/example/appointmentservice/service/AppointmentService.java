@@ -29,9 +29,20 @@ public class AppointmentService {
         appointment.setPatientId(request.getPatient_id());
         appointment.setDoctorId(request.getDoctor_id());
         appointment.setSpecialtyId(request.getSpecialty_id());
+        appointment.setPatientName(request.getPatient_name());
+        appointment.setDoctorName(request.getDoctor_name());
+        appointment.setSpecialtyName(request.getSpecialty_name());
         appointment.setAppointmentDate(request.getAppointment_date());
         appointment.setAppointmentShift(request.getAppointment_shift());
 
+        // Tính ticket_number
+        Integer existingAppointmentsCount = appointmentRepository.countByDoctorIdAndAppointmentDateAndAppointmentShift(
+        		request.getDoctor_id(), 
+        		request.getAppointment_date(), 
+        		request.getAppointment_shift()
+        );
+        appointment.setTicketNumber(existingAppointmentsCount.intValue() + 1);
+        
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return convertToAppointmentDTO(savedAppointment);
     }
@@ -83,8 +94,12 @@ public class AppointmentService {
         response.setPatient_id(appointment.getPatientId());
         response.setDoctor_id(appointment.getDoctorId());
         response.setSpecialty_id(appointment.getSpecialtyId());
+        response.setPatient_name(appointment.getPatientName());
+        response.setDoctor_name(appointment.getDoctorName());
+        response.setSpecialty_name(appointment.getSpecialtyName());
         response.setAppointment_date(appointment.getAppointmentDate());
         response.setAppointment_shift(appointment.getAppointmentShift());
+        response.setTicket_number(appointment.getTicketNumber());
         response.setStatus(appointment.getStatus());
         return response;
     }

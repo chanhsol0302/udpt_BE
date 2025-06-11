@@ -43,8 +43,12 @@ create table appointments (
     patient_id BINARY(16) NOT NULL,
     doctor_id BINARY(16) NOT NULL,
     specialty_id BINARY(16) NOT NULL,
+	patient_name VARCHAR(191) NOT NULL,
+	doctor_name VARCHAR(191) NOT NULL,
+	specialty_name VARCHAR(191) NOT NULL,
     appointment_date DATE NOT NULL,
     appointment_shift INT NOT NULL,
+	ticket_number INT NOT NULL,
     status INT NOT NULL
 )
 

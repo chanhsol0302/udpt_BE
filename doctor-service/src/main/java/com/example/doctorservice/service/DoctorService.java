@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 import java.util.stream.Collectors;
 
@@ -23,11 +24,17 @@ public class DoctorService {
                 .collect(Collectors.toList());
 	}
 	
+	// Yêu cầu trả về DoctorId khi đăng nhập (UserId)
+	public Optional<DoctorDTO> getDoctorIdByUserId(UUID userId) {
+		Optional<Doctor> doctor = doctorRepository.findByUserId(userId);
+		return doctor.map(this::convertToDoctorDTO);
+	}
+		
 	private DoctorDTO convertToDoctorDTO(Doctor doctor) {
         DoctorDTO dto = new DoctorDTO();
         dto.setId(doctor.getId());
         dto.setName(doctor.getName());
-        dto.setUserId(doctor.getUser_id());
+        dto.setUserId(doctor.getUserId());
         if (doctor.getSpecialty() != null) {
             dto.setSpecialtyId(doctor.getSpecialty().getId());
             dto.setSpecialtyName(doctor.getSpecialty().getName());

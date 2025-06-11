@@ -28,4 +28,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 			@Param("appointmentDate") LocalDate appointmentDate);
 	
 	List<Appointment> findByDoctorIdAndAppointmentDate(UUID doctorId, LocalDate appointmentDate);
+	
+	// Đếm số lượng lịch hẹn theo bác sĩ, ngày và ca
+    Integer countByDoctorIdAndAppointmentDateAndAppointmentShift(UUID doctorId, LocalDate appointmentDate, Integer appointmentShift);
 }
