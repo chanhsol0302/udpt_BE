@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.UUID;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/appointments")
+@CrossOrigin(origins = "http://localhost")
 public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
