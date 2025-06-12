@@ -168,7 +168,27 @@ INSERT INTO treatments (id, code, name, price, description, created_at, updated_
     NULL
 );
 
---------------------------
+--------------------------drug_inventory_services-----------------------------
+
+CREATE TABLE medicines (
+        id BINARY(16) PRIMARY KEY,
+        code VARCHAR(50) UNIQUE,
+        name VARCHAR(255) NOT NULL,
+		price DECIMAL(10,2) NOT NULL,
+        description TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP
+);
+
+CREATE TABLE drug_inventory (
+        medicine_id BINARY(16) PRIMARY KEY,
+        stock_quantity INT NOT NULL,
+        available_quantity INT NOT NULL,
+        updated_at TIMESTAMP,
+    	FOREIGN KEY (medicine_id) REFERENCES medicines(id)
+);
+
+
 
 
 
