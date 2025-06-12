@@ -52,5 +52,58 @@ create table appointments (
     status INT NOT NULL
 )
 
+---------------------illness_service------------------------------------
+create table illnesses (
+	id BINARY(16) PRIMARY KEY,
+    code VARCHAR(50) UNIQUE,
+    name VARCHAR(191) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+-- Dữ liệu mẫu 1: Cảm cúm thông thường
+INSERT INTO illnesses (id, code, name, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')), -- Tự động tạo và chuyển đổi UUID
+    'FLU001',
+    'Cảm cúm thông thường',
+    'Một bệnh nhiễm trùng đường hô hấp cấp tính do virus cúm gây ra, với các triệu chứng như sốt, ho, đau họng, đau nhức cơ thể.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+-- Dữ liệu mẫu 2: Đau dạ dày cấp
+INSERT INTO illnesses (id, code, name, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')),
+    'GASTRO002',
+    'Đau dạ dày cấp',
+    'Tình trạng viêm niêm mạc dạ dày đột ngột, thường gây ra các triệu chứng như đau bụng trên, buồn nôn, nôn mửa và khó tiêu.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+-- Dữ liệu mẫu 3: Viêm họng hạt
+INSERT INTO illnesses (id, code, name, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')),
+    'PHARYNX003',
+    'Viêm họng hạt',
+    'Tình trạng viêm nhiễm mãn tính ở họng, kèm theo sự xuất hiện của các hạt lympho lớn ở thành sau họng. Thường gây đau họng, ngứa họng và ho khan.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+-- Dữ liệu mẫu 4: Dị ứng phấn hoa
+INSERT INTO illnesses (id, code, name, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')),
+    'ALLERGY004',
+    'Dị ứng phấn hoa',
+    'Phản ứng quá mẫn của hệ miễn dịch với phấn hoa, gây ra các triệu chứng như hắt hơi, sổ mũi, ngứa mắt và nghẹt mũi.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+--------------------
+
+
 
 
