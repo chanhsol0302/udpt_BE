@@ -52,7 +52,7 @@ create table appointments (
     status INT NOT NULL
 )
 
----------------------illness_service------------------------------------
+---------------------illness_services------------------------------------
 create table illnesses (
 	id BINARY(16) PRIMARY KEY,
     code VARCHAR(50) UNIQUE,
@@ -102,7 +102,74 @@ INSERT INTO illnesses (id, code, name, description, created_at, updated_at) VALU
     NULL
 );
 
---------------------
+--------------------treatment_services-------------------------
+create table treatments (
+	id BINARY(16) PRIMARY KEY,
+    code VARCHAR(50) UNIQUE,
+    name VARCHAR(191) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+-- Dữ liệu mẫu 1: Vật lý trị liệu toàn thân (chứa "trị liệu")
+INSERT INTO treatments (id, code, name, price, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')),
+    'PT001',
+    'Vật lý trị liệu toàn thân',
+    1500000.00,
+    'Gói vật lý trị liệu phục hồi chức năng toàn diện cho cơ thể.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+-- Dữ liệu mẫu 2: Trị liệu tâm lý chuyên sâu (chứa "trị liệu" và trùng với mẫu 1)
+INSERT INTO treatments (id, code, name, price, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')),
+    'TP002',
+    'Trị liệu tâm lý chuyên sâu',
+    2500000.00,
+    'Phiên trị liệu tâm lý 1:1, giúp giải quyết các vấn đề tâm lý phức tạp.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+-- Dữ liệu mẫu 3: Phẫu thuật nội soi
+INSERT INTO treatments (id, code, name, price, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')),
+    'SURG003',
+    'Phẫu thuật nội soi',
+    15000000.00,
+    'Thực hiện phẫu thuật bằng phương pháp nội soi, giảm thiểu xâm lấn.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+-- Dữ liệu mẫu 4: Châm cứu truyền thống
+INSERT INTO treatments (id, code, name, price, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')),
+    'ACU004',
+    'Châm cứu truyền thống',
+    300000.00,
+    'Liệu pháp châm cứu cổ truyền giúp giảm đau và cân bằng năng lượng cơ thể.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+-- Dữ liệu mẫu 5: Tư vấn dinh dưỡng cá nhân
+INSERT INTO treatments (id, code, name, price, description, created_at, updated_at) VALUES (
+    UNHEX(REPLACE(UUID(),'-','')),
+    'NUTRI005',
+    'Tư vấn dinh dưỡng cá nhân',
+    800000.00,
+    'Chương trình tư vấn dinh dưỡng được thiết kế riêng theo nhu cầu và tình trạng sức khỏe.',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+--------------------------
+
 
 
 
