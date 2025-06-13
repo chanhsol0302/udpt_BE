@@ -15,4 +15,7 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="com.example.doctorservice.dto.DoctorDTO"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.CrossOrigin"/>
+    <fullyQualifiedTypeName name="com.example.prescriptionservice.repository.PrescriptionRepository"/>
+    <fullyQualifiedTypeName name="java.util.UUID"/>
+    <fullyQualifiedTypeName name="com.example.prescriptionservice.dto.PrescriptionCreateRequest"/>
 </qualifiedTypeNameHistroy>
