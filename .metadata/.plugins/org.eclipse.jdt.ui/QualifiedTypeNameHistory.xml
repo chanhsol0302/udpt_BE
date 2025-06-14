@@ -18,4 +18,7 @@
     <fullyQualifiedTypeName name="com.example.prescriptionservice.repository.PrescriptionRepository"/>
     <fullyQualifiedTypeName name="java.util.UUID"/>
     <fullyQualifiedTypeName name="com.example.prescriptionservice.dto.PrescriptionCreateRequest"/>
+    <fullyQualifiedTypeName name="com.example.medicalrecordservice.client.MedicalrecordServiceClient"/>
+    <fullyQualifiedTypeName name="com.example.medicalrecordservice.model.Medicine"/>
+    <fullyQualifiedTypeName name="com.example.medicalrecordservice.dto.PrescriptionCreateResponse"/>
 </qualifiedTypeNameHistroy>
