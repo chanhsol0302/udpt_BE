@@ -16,7 +16,7 @@ public class MedicalrecordCreateRequest {
 	private LocalDateTime visitDate;
 	private List<UUID> illnessId;
 	private List<UUID> treatmentId;
-	private float totalPrice;
+	//private float totalPrice;
 	private String note;
     private List<Medicine> medicines;
 }
