@@ -7,6 +7,7 @@ import com.example.prescriptionservice.repository.PrescriptionRepository;
 
 import java.util.UUID;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,20 @@ public class PrescriptionService {
 	
 	public Prescription createPrescription(PrescriptionCreateRequest request) {
 		Prescription prescription = new Prescription();
-		//prescription.setId(UUID.randomUUID());
+		prescription.setId(UUID.randomUUID());
 		prescription.setMedicines(request.getMedicines());
-		//prescription.setCreatedAt(LocalDateTime.now());
+		prescription.setCreatedAt(LocalDateTime.now());
 		
 		prescriptionRepository.save(prescription);
 		return prescription;
+	}
+	
+	public Prescription getPrescriptionById(UUID id) {
+		Optional<Prescription> prescription = prescriptionRepository.findById(id);
+		if (prescription.isPresent()) {
+			return prescription.get();
+		} else {
+			throw new RuntimeException("Prescription not found with ID: " + id);
+		}
 	}
 }

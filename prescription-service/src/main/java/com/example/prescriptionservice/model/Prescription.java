@@ -3,6 +3,7 @@ package com.example.prescriptionservice.model;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -16,7 +17,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 public class Prescription {
 	@Id
     //@GeneratedValue - không phải JPA nên không có phần tự động sinh như này
-    private String id;
+    private UUID id;
 
     private String status = "PENDING";
 
