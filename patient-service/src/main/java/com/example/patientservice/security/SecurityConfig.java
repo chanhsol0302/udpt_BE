@@ -40,6 +40,7 @@ public class SecurityConfig {
         // Cấu hình quy tắc ủy quyền cho các yêu cầu HTTP
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/patients").permitAll()
+            .requestMatchers("/api/patients/**").hasRole("DOCTOR")
             .requestMatchers("/api/patients/**").authenticated() 
             
             // Mặc định, bất kỳ request nào khác không được định nghĩa cụ thể ở trên cũng yêu cầu xác thực

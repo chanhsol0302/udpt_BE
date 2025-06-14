@@ -27,12 +27,12 @@ public class PatientController {
         return new ResponseEntity<>(newPatient, HttpStatus.CREATED);
     }
 
-    /*@GetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<PatientResponse> getPatientById(@PathVariable UUID id) {
         return patientService.getPatientById(id)
                 .map(patient -> new ResponseEntity<>(patient, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }*/
+    }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<PatientResponse> getPatientByUserId(@PathVariable UUID userId, HttpServletRequest request) {
