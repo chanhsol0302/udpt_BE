@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class TreatmentService {
@@ -15,5 +17,14 @@ public class TreatmentService {
 	
 	public List<Treatment> searchTreatmentsByName(String query) {
 		return treatmentRepository.findByNameContainingIgnoreCase(query);
+	}
+	
+	public Treatment getTreatmentById(UUID id) {
+		Optional<Treatment> treatment = treatmentRepository.findById(id);
+		if (treatment.isPresent()) {
+			return treatment.get();
+		} else {
+			throw new RuntimeException("Treatment not found with ID: " + id);
+		}
 	}
 }
