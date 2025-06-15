@@ -9,6 +9,9 @@ import com.example.prescriptionservice.repository.PrescriptionRepository;
 
 import java.util.UUID;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,5 +60,19 @@ public class PrescriptionService {
 		return prescriptionRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException(
 						"Prescription could not found with id: " + id));
+	}
+	
+	public List<Prescription> getPrescriptionsByDate(LocalDate date) {
+		LocalDateTime startOfDay = date.atStartOfDay();
+		LocalDateTime endOfDay = LocalDateTime.of(date,LocalTime.MAX);
+		
+		List<Prescription> prescriptions = prescriptionRepository.findByCreatedAtBetween(startOfDay, endOfDay);
+		if (prescriptions.isEmpty()) {
+			throw new RuntimeException("No prescription is found for date: " + date);
+		}
+		return prescriptions;
+	}
+	public List<Prescription> getPrescriptionByDate(LocalDate date) {
+		return getPrescriptionsByDate(date);
 	}
 }

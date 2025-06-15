@@ -37,8 +37,8 @@ public class MedicalrecordController {
     }
     
     @GetMapping("appointment/{appointmentId}")
-    public ResponseEntity<Medicalrecord> getMedicalrecordByAppointmentId(@PathVariable UUID appointmentId) {
-    	Medicalrecord record = medicalrecordService.getMedicalrecordByAppointmentId(appointmentId);
-    	return new ResponseEntity<>(record, HttpStatus.OK);
+    public ResponseEntity<List<Medicalrecord>> getMedicalrecordByAppointmentId(@PathVariable UUID appointmentId) {
+    	List<Medicalrecord> records = medicalrecordService.getMedicalrecordByAppointmentId(appointmentId);
+    	return new ResponseEntity<>(records, HttpStatus.OK);
     }
 }

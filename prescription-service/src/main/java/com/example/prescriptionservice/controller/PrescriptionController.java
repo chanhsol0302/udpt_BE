@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+import java.util.List;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/prescriptions")
@@ -27,5 +29,11 @@ public class PrescriptionController {
     public ResponseEntity<Prescription> getPrescriptionById(@PathVariable UUID id) {
     	Prescription prescription = prescriptionService.getPrescriptionById(id);
     	return new ResponseEntity<>(prescription, HttpStatus.OK);
+    }
+    
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<Prescription>> getPrescriptionToday(@PathVariable LocalDate date) {
+    	List<Prescription> prescriptions = prescriptionService.getPrescriptionByDate(date);
+    	return new ResponseEntity<>(prescriptions, HttpStatus.OK);
     }
 }
