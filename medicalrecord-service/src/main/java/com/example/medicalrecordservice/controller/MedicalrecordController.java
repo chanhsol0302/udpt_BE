@@ -35,4 +35,10 @@ public class MedicalrecordController {
     	List<Medicalrecord> records = medicalrecordService.getMedicalrecordByDoctorId(doctorId);
     	return new ResponseEntity<>(records, HttpStatus.OK);
     }
+    
+    @GetMapping("appointment/{appointmentId}")
+    public ResponseEntity<Medicalrecord> getMedicalrecordByAppointmentId(@PathVariable UUID appointmentId) {
+    	Medicalrecord record = medicalrecordService.getMedicalrecordByAppointmentId(appointmentId);
+    	return new ResponseEntity<>(record, HttpStatus.OK);
+    }
 }

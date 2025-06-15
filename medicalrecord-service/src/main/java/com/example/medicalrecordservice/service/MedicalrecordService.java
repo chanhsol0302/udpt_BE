@@ -95,4 +95,10 @@ public class MedicalrecordService {
 		}
 		return records;
 	}
+	
+	public Medicalrecord getMedicalrecordByAppointmentId(UUID appointmentId) {
+		return medicalrecordRepository.findByAppointmentId(appointmentId)
+				.orElseThrow(() -> new RuntimeException(
+						"Medical record not found with appointment ID: " + appointmentId));
+	}
 }

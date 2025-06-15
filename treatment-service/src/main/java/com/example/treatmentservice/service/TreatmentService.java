@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,11 +19,8 @@ public class TreatmentService {
 	}
 	
 	public Treatment getTreatmentById(UUID id) {
-		Optional<Treatment> treatment = treatmentRepository.findById(id);
-		if (treatment.isPresent()) {
-			return treatment.get();
-		} else {
-			throw new RuntimeException("Treatment not found with ID: " + id);
-		}
+		return treatmentRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException(
+						"Treatment cound not found with id: " + id));
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 @Repository
 public interface MedicalrecordRepository extends MongoRepository<Medicalrecord, UUID> {
@@ -13,4 +14,6 @@ public interface MedicalrecordRepository extends MongoRepository<Medicalrecord, 
 	List<Medicalrecord> findByPatientId(UUID patientId);
 
 	List<Medicalrecord> findByDoctorId(UUID doctorId);
+
+	Optional<Medicalrecord> findByAppointmentId(UUID appointmentId);
 }

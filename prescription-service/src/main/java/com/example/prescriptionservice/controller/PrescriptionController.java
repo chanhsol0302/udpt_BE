@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -26,13 +25,7 @@ public class PrescriptionController {
     
     @GetMapping("/{id}")
     public ResponseEntity<Prescription> getPrescriptionById(@PathVariable UUID id) {
-    	Prescription prescription = null;
-    	try {
-    		prescription = prescriptionService.getPrescriptionById(id);
-    	}
-    	catch (RuntimeException e) {
-    		throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-    	}
+    	Prescription prescription = prescriptionService.getPrescriptionById(id);
     	return new ResponseEntity<>(prescription, HttpStatus.OK);
     }
 }

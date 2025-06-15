@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
 
 @Service
 public class IllnessService {
@@ -20,11 +19,8 @@ public class IllnessService {
 	}
 	
 	public Illness getIllnessById(UUID id) {
-		Optional<Illness> illness = illnessRepository.findById(id);
-		if (illness.isPresent()) {
-			return illness.get();
-		} else {
-			throw new RuntimeException("Illness not found with id: " + id);
-		}
+		return illnessRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException(
+						"Illness could not found with id: " + id));
 	}
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -31,13 +30,7 @@ public class IllnessController {
     
     @GetMapping("/{id}")
     public ResponseEntity<Illness> getIllnessById(@PathVariable UUID id) {
-    	Illness illness = null;
-    	try {
-    		illness = illnessService.getIllnessById(id);
-    	}
-    	catch (RuntimeException e) {
-    		throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-    	}
+    	Illness illness = illnessService.getIllnessById(id);
     	return new ResponseEntity<>(illness, HttpStatus.OK);
     }
 }
