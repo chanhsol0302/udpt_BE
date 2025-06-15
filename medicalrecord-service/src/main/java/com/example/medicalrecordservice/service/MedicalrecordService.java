@@ -12,7 +12,7 @@ import com.example.medicalrecordservice.client.TreatmentServiceClient;
 
 import java.util.UUID;
 import java.time.LocalDateTime;
-//import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,5 +78,21 @@ public class MedicalrecordService {
 		
         medicalrecordRepository.save(medicalrecord);
 		return medicalrecord;
+	}
+	
+	public List<Medicalrecord> getMedicalrecordByPatientId(UUID patientId) {
+        List<Medicalrecord> records = medicalrecordRepository.findByPatientId(patientId);
+        if (records.isEmpty()) {
+        	throw new RuntimeException("No medical records is found for patient id: " + patientId);
+        }
+        return records;
+	}
+
+	public List<Medicalrecord> getMedicalrecordByDoctorId(UUID doctorId) {
+		List<Medicalrecord> records = medicalrecordRepository.findByDoctorId(doctorId);
+		if (records.isEmpty()) {
+			throw new RuntimeException("No medical record is found for doctor ID: " + doctorId);
+		}
+		return records;
 	}
 }

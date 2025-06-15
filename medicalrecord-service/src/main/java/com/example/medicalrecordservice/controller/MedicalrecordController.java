@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.server.ResponseStatusException;
 
-//import java.util.UUID;
+import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/medicalrecords")
@@ -22,5 +22,17 @@ public class MedicalrecordController {
     public ResponseEntity<Medicalrecord> createPrescription(@RequestBody MedicalrecordCreateRequest request) {
         Medicalrecord record = medicalrecordService.createMedicalrecord(request);
         return new ResponseEntity<>(record, HttpStatus.CREATED);
+    }
+    
+    @GetMapping("patient/{patientId}")
+    public ResponseEntity<List<Medicalrecord>> getMedicalrecordByPatientId(@PathVariable UUID patientId) {
+    	List<Medicalrecord> records = medicalrecordService.getMedicalrecordByPatientId(patientId);
+    	return new ResponseEntity<>(records, HttpStatus.OK);
+    }
+    
+    @GetMapping("doctor/{doctorId}")
+    public ResponseEntity<List<Medicalrecord>> getMedicalrecordByDoctorId(@PathVariable UUID doctorId) {
+    	List<Medicalrecord> records = medicalrecordService.getMedicalrecordByDoctorId(doctorId);
+    	return new ResponseEntity<>(records, HttpStatus.OK);
     }
 }
