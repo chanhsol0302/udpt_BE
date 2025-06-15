@@ -3495,3 +3495,34 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact org.springfra
 2025-06-15 17:21:27,322 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2025-06-15 17:21:27,332 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2025-06-15 17:21:27,338 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\medicalrecord-service\src\test\resources
+2025-06-15 19:32:47,096 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2025-06-15 19:33:34,873 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:33:34,904 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:33:34,912 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\appointment-service\src\test\resources
+2025-06-15 19:33:47,282 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:33:47,294 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:33:47,301 [Worker-7: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\appointment-service\src\test\resources
+2025-06-15 19:38:36,727 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:38:36,737 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:38:36,741 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\appointment-service\src\test\resources
+2025-06-15 19:40:10,889 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:40:10,896 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:40:10,904 [Worker-12: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\appointment-service\src\test\resources
+2025-06-15 19:40:21,252 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:40:21,286 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:40:21,294 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\appointment-service\src\test\resources
+2025-06-15 19:49:10,986 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:49:10,996 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:49:11,004 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\appointment-service\src\test\resources
+2025-06-15 19:50:44,101 [Worker-25: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:50:44,134 [Worker-25: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:50:44,141 [Worker-25: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\medicalrecord-service\src\test\resources
+2025-06-15 19:53:05,744 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:53:05,750 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:53:05,755 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\medicalrecord-service\src\test\resources
+2025-06-15 19:56:25,313 [Worker-35: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:56:25,345 [Worker-35: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:56:25,357 [Worker-35: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\medicalrecord-service\src\test\resources
+2025-06-15 19:57:08,837 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-15 19:57:08,847 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2025-06-15 19:57:08,851 [Worker-33: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\medicalrecord-service\src\test\resources

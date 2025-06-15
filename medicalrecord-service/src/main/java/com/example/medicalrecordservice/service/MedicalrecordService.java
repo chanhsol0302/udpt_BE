@@ -7,6 +7,7 @@ import com.example.medicalrecordservice.dto.PrescriptionCreateResponse;
 import com.example.medicalrecordservice.dto.TreatmentResponse;
 
 import com.example.medicalrecordservice.repository.MedicalrecordRepository;
+import com.example.medicalrecordservice.client.AppointmentServiceClient;
 import com.example.medicalrecordservice.client.PrescriptionServiceClient;
 import com.example.medicalrecordservice.client.TreatmentServiceClient;
 
@@ -30,6 +31,9 @@ public class MedicalrecordService {
 	
 	@Autowired
 	private TreatmentServiceClient treatmentServiceClient;
+	
+	@Autowired
+	private AppointmentServiceClient appointmentServiceClient;
 	
 	public Medicalrecord createMedicalrecord(MedicalrecordCreateRequest request) {
 		Medicalrecord medicalrecord = new Medicalrecord();
@@ -84,6 +88,9 @@ public class MedicalrecordService {
         // Đã set payments = false ở model 
         
         medicalrecordRepository.save(medicalrecord);
+        
+        // Cập nhật khám thành công (Appointment.status = 2)
+        appointmentServiceClient.updateStatus(request.getAppointmentId(), 2);
 		return medicalrecord;
 	}
 	

@@ -4,7 +4,6 @@ import com.example.appointmentservice.model.Appointment;
 import com.example.appointmentservice.repository.AppointmentRepository;
 import com.example.appointmentservice.dto.AppointmentCreateRequest;
 import com.example.appointmentservice.dto.AppointmentDTO;
-import com.example.appointmentservice.model.Appointment;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +63,7 @@ public class AppointmentService {
     }
 	
 	@Transactional
-    public Optional<AppointmentDTO> updateAppointmentStatus(UUID id, Integer newStatus) {
+    public AppointmentDTO updateAppointmentStatus(UUID id, Integer newStatus) {
         // Tìm cuộc hẹn theo ID
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
 
@@ -75,10 +74,12 @@ public class AppointmentService {
             // Lưu lại vào database
             Appointment updatedAppointment = appointmentRepository.save(appointment);
             // Chuyển đổi sang DTO và trả về
-            return Optional.of(convertToAppointmentDTO(updatedAppointment));
+            return convertToAppointmentDTO(updatedAppointment);
         }
-        // Trả về Optional.empty() nếu không tìm thấy cuộc hẹn
-        return Optional.empty();
+        else
+        {
+        	throw new RuntimeException("No appointment is found with id:" + id);
+        }
     }
 	
 	public List<AppointmentDTO> getAppointmentsByDoctorIdAndDate(UUID doctorId, LocalDate appointmentDate) {

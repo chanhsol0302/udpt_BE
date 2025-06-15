@@ -8,14 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.UUID;
 import java.util.List;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -53,17 +50,10 @@ public class AppointmentController {
         return new ResponseEntity<>(highDemandShifts, HttpStatus.OK);
     }
     
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<AppointmentDTO> updateAppointmentStatus(
-            @PathVariable UUID id,
-            @RequestBody Map<String, Integer> requestBody) {
-
-        Integer newStatus = requestBody.get("status"); // Lấy giá trị status từ JSON
-
-        Optional<AppointmentDTO> updatedAppointment = appointmentService.updateAppointmentStatus(id, newStatus);
-
-        return updatedAppointment.map(dto -> new ResponseEntity<>(dto, HttpStatus.OK))
-                                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @PutMapping("/updateStatus")
+    public ResponseEntity<AppointmentDTO> updateAppointmentStatus(@RequestParam UUID id, @RequestParam Integer status) {
+        AppointmentDTO updatedAppointment = appointmentService.updateAppointmentStatus(id, status);
+        return new ResponseEntity<>(updatedAppointment, HttpStatus.OK);
     }
     
     @GetMapping("/by-doctor-and-date")
