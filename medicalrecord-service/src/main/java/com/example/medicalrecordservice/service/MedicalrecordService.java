@@ -1,18 +1,26 @@
 package com.example.medicalrecordservice.service;
 
 import com.example.medicalrecordservice.model.Medicalrecord;
+import com.example.medicalrecordservice.model.Medicine;
 import com.example.medicalrecordservice.dto.PrescriptionCreateRequest;
+import com.example.medicalrecordservice.dto.IllnessResponse;
 import com.example.medicalrecordservice.dto.MedicalrecordCreateRequest;
+import com.example.medicalrecordservice.dto.PatientResponse;
 import com.example.medicalrecordservice.dto.PrescriptionCreateResponse;
 import com.example.medicalrecordservice.dto.TreatmentResponse;
-
+import com.example.medicalrecordservice.dto.UserResponse;
 import com.example.medicalrecordservice.repository.MedicalrecordRepository;
 import com.example.medicalrecordservice.client.AppointmentServiceClient;
+import com.example.medicalrecordservice.client.IllnessServiceClient;
+import com.example.medicalrecordservice.client.NotificationServiceClient;
+import com.example.medicalrecordservice.client.PatientServiceClient;
 import com.example.medicalrecordservice.client.PrescriptionServiceClient;
 import com.example.medicalrecordservice.client.TreatmentServiceClient;
+import com.example.medicalrecordservice.client.UserServiceClient;
 
 import java.util.UUID;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +43,18 @@ public class MedicalrecordService {
 	@Autowired
 	private AppointmentServiceClient appointmentServiceClient;
 	
+	@Autowired
+	private NotificationServiceClient notificationServiceClient;
+	
+	@Autowired
+	private PatientServiceClient patientServiceClient;
+	
+	@Autowired
+	private UserServiceClient userServiceClient;
+	
+	@Autowired
+	private IllnessServiceClient illnessServiceClient;
+	
 	public Medicalrecord createMedicalrecord(MedicalrecordCreateRequest request) {
 		Medicalrecord medicalrecord = new Medicalrecord();
 		medicalrecord.setId(UUID.randomUUID());
@@ -48,6 +68,7 @@ public class MedicalrecordService {
 		medicalrecord.setTreatmentId(request.getTreatmentId());
 		
 		// Tính giá treatment
+		List<String> treatmentNames = new ArrayList<>();
 		float treatmentTotalPrice = 0;
 		if (request.getTreatmentId() != null && !request.getTreatmentId().isEmpty()) {
 			for (UUID treatmentId: request.getTreatmentId()) {
@@ -56,6 +77,7 @@ public class MedicalrecordService {
 					
 					if (treatment.getStatusCode().is2xxSuccessful() && treatment.getBody() != null) {
 						treatmentTotalPrice = treatmentTotalPrice + (treatment.getBody().getPrice());
+						treatmentNames.add(treatment.getBody().getName());
 					} else {
 						throw new RuntimeException("Failed to get treatment details for ID: " + treatmentId);
 					}
@@ -91,6 +113,94 @@ public class MedicalrecordService {
         
         // Cập nhật khám thành công (Appointment.status = 2)
         appointmentServiceClient.updateStatus(request.getAppointmentId(), 2);
+        
+        // Gửi mail cho người dùng
+        PatientResponse patient = patientServiceClient.getPatientById(request.getPatientId());
+        UserResponse user = userServiceClient.getUserById(patient.getUserId());
+        
+        // Bắt đầu xây dựng chuỗi emailBody
+        StringBuilder emailBodyBuilder = new StringBuilder();
+
+        emailBodyBuilder.append("Kính gửi ").append(medicalrecord.getPatientName()).append(",\n\n");
+        emailBodyBuilder.append("Chúng tôi gửi chi tiết hồ sơ bệnh án của bạn:\n\n");
+
+        // Thông tin chung về bệnh án
+        emailBodyBuilder.append("Mã hồ sơ: ").append(medicalrecord.getId()).append("\n");
+        emailBodyBuilder.append("Tên bệnh nhân: ").append(medicalrecord.getPatientName()).append("\n");
+        emailBodyBuilder.append("Tên bác sĩ: ").append(medicalrecord.getDoctorName()).append("\n");
+        emailBodyBuilder.append("Ngày khám: ").append(medicalrecord.getVisitDate().format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))).append("\n");
+        emailBodyBuilder.append("Ghi chú: ").append(medicalrecord.getNote() != null && !medicalrecord.getNote().isEmpty() ? medicalrecord.getNote() : "Không có").append("\n\n");
+
+        // Illnesses
+        List<String> illnessNames = new ArrayList<>();
+		if (request.getIllnessId() != null && !request.getIllnessId().isEmpty()) {
+			for (UUID illnessId: request.getIllnessId()) {
+				try {
+					ResponseEntity<IllnessResponse> illness = illnessServiceClient.getIllnessById(illnessId);
+					
+					if (illness.getStatusCode().is2xxSuccessful() && illness.getBody() != null) {
+						illnessNames.add(illness.getBody().getName());
+					} else {
+						throw new RuntimeException("Failed to get illness details for ID: " + illnessId);
+					}
+				}
+				catch (RuntimeException ex) {
+					throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
+				}
+			}
+		}
+		
+		if (illnessNames != null && !illnessNames.isEmpty()) {
+            emailBodyBuilder.append("Các bệnh đã mắc:\n");
+            for (String illnessName : illnessNames) {
+                emailBodyBuilder.append("  - ").append(illnessName).append("\n");
+            }
+            emailBodyBuilder.append("\n");
+        } else {
+            emailBodyBuilder.append("Không có bệnh nào được ghi nhận.\n\n");
+        }
+		
+        // Treatments
+        if (treatmentNames != null && !treatmentNames.isEmpty()) {
+            emailBodyBuilder.append("Các phương pháp điều trị:\n");
+            for (String treatmentName : treatmentNames) {
+                emailBodyBuilder.append("  - ").append(treatmentName).append("\n");
+            }
+            emailBodyBuilder.append("\n");
+        } else {
+            emailBodyBuilder.append("Không có phương pháp điều trị nào.\n\n");
+        }
+        
+        // Thông tin về thuốc (nếu có)
+        List<Medicine> medicines = request.getMedicines();
+        if (medicines != null && !medicines.isEmpty()) {
+            emailBodyBuilder.append("Đơn thuốc:\n");
+            for (Medicine med : medicines) {
+                emailBodyBuilder.append("  - Tên thuốc: ").append(med.getName())
+                              .append(", Số lượng: ").append(med.getQuantity())
+                              .append(", Giá: ").append(String.format("%.0f", med.getPrice())).append(" VND")
+                              .append(", Ghi chú: ").append(med.getNote() != null && !med.getNote().isEmpty() ? med.getNote() : "Không có")
+                              .append("\n");
+            }
+            emailBodyBuilder.append("\n");
+        } else {
+            emailBodyBuilder.append("Không có đơn thuốc.\n\n");
+        }
+
+        // Thông tin về giá cả (có thể làm tròn để dễ đọc)
+        emailBodyBuilder.append("Thông tin thanh toán:\n");
+        emailBodyBuilder.append("Giá thuốc: ").append(String.format("%.0f", medicalrecord.getMedicinePrice())).append(" VND\n");
+        emailBodyBuilder.append("Giá điều trị: ").append(String.format("%.0f", medicalrecord.getTreatmentPrice())).append(" VND\n");
+        emailBodyBuilder.append("Tổng cộng: ").append(String.format("%.0f", medicalrecord.getTotalPrice())).append(" VND\n");
+        emailBodyBuilder.append("Trạng thái thanh toán: ").append(medicalrecord.isPayments() ? "Đã thanh toán" : "Chưa thanh toán").append("\n\n");
+
+        emailBodyBuilder.append("Trân trọng,\n");
+        emailBodyBuilder.append("Bệnh viện");
+
+        String emailBody = emailBodyBuilder.toString();
+
+        // Sau đó bạn gọi dịch vụ gửi mail
+        notificationServiceClient.SendMail(user.getEmail(), "Chi tiết Hồ sơ Bệnh án của bạn", emailBody);
 		return medicalrecord;
 	}
 	
