@@ -12,6 +12,7 @@ public class PrescriptionCreateResponse {
     private UUID id;
     private String status;
     private List<Medicine> medicines;
+    private float medicinePrice;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

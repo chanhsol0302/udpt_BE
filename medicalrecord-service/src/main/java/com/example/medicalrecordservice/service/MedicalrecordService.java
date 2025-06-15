@@ -61,7 +61,7 @@ public class MedicalrecordService {
 				}
 			}
 		}
-		medicalrecord.setTotalPrice(treatmentTotalPrice);
+		medicalrecord.setTreatmentPrice(treatmentTotalPrice);
 		
 		//medicalrecord.setTotalPrice(request.getTotalPrice());
 		medicalrecord.setNote(request.getNote());
@@ -73,9 +73,16 @@ public class MedicalrecordService {
 		
         ResponseEntity<PrescriptionCreateResponse> prescriptionResponse = prescriptionServiceClient.createPrescription(prescriptionRequest);
         
+        // Lấy dữ liệu trả về từ prescription service
         UUID prescriptionId = prescriptionResponse.getBody().getId();
         medicalrecord.setPrescriptionId(prescriptionId);
+        
+        float medicinePrice = prescriptionResponse.getBody().getMedicinePrice();
+        medicalrecord.setMedicinePrice(medicinePrice);
 		
+        medicalrecord.setTotalPrice(treatmentTotalPrice + medicinePrice);
+        // Đã set payments = false ở model 
+        
         medicalrecordRepository.save(medicalrecord);
 		return medicalrecord;
 	}

@@ -24,6 +24,12 @@ public class Prescription {
     @Field("medicines")
     private List<Medicine> medicines;
     
+    @Field("medicine_price")
+    private float medicinePrice;
+    
+    @Field("payments")
+    private boolean payments = false;
+    
     @CreatedDate
     @Field("created_at")
     private LocalDateTime createdAt;

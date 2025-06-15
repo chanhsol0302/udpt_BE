@@ -44,9 +44,18 @@ public class Medicalrecord {
     @Field("prescription_id")
     private UUID prescriptionId;
     
+    @Field("medicine_price")
+    private float medicinePrice;
+    
+    @Field("treatment_price")
+    private float treatmentPrice;
+    
 	@Field("total_price")
 	private float totalPrice;
 
+	@Field("payments")
+	private boolean payments = false;
+	
 	private String note;
 	
     @Field("created_at")

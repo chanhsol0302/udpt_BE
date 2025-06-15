@@ -25,6 +25,17 @@ public class PrescriptionService {
 		Prescription prescription = new Prescription();
 		prescription.setId(UUID.randomUUID());
 		prescription.setMedicines(request.getMedicines());
+		
+		// Tính medicine price
+		float medicinePrice = 0;
+		if (request.getMedicines() != null && !request.getMedicines().isEmpty()) {
+			for (Medicine medicine : request.getMedicines()) {
+				medicinePrice += (medicine.getPrice() * medicine.getQuantity());
+			}
+		}
+		prescription.setMedicinePrice(medicinePrice);
+		
+		// set payments = false ở model rồi 
 		prescription.setCreatedAt(LocalDateTime.now());
 		
 		prescriptionRepository.save(prescription);
