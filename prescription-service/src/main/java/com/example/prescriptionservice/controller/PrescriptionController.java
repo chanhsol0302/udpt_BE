@@ -36,4 +36,10 @@ public class PrescriptionController {
     	List<Prescription> prescriptions = prescriptionService.getPrescriptionByDate(date);
     	return new ResponseEntity<>(prescriptions, HttpStatus.OK);
     }
+    
+    @PutMapping("/updatePayments/{id}")
+    public ResponseEntity<Prescription> updatePrescriptionPaymentsById(@PathVariable UUID id) {
+    	Prescription prescription = prescriptionService.updatePrescriptionPaymentsById(id);
+    	return new ResponseEntity<>(prescription, HttpStatus.OK);
+    }
 }

@@ -22,6 +22,7 @@ import java.util.UUID;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -226,5 +227,20 @@ public class MedicalrecordService {
 			throw new RuntimeException("No medical record is found for appointment ID: " + appointmentId);
 		}
 		return records;
+	}
+	
+	public Medicalrecord updatePayments(UUID id) {
+		Optional<Medicalrecord> record = medicalrecordRepository.findById(id);
+		if (record.isPresent()) {
+			Medicalrecord UpdateRecord = record.get();
+			UpdateRecord.setPayments(true);
+			// Cập nhật cho đơn thuốc
+			prescriptionServiceClient.updatePrescriptionPaymentsById(UpdateRecord.getPrescriptionId());
+			return medicalrecordRepository.save(UpdateRecord);
+		}
+		else
+		{
+			throw new RuntimeException("No medical record is found for update payments with ID: " + id);
+		}
 	}
 }

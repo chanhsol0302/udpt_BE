@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,18 @@ public class PrescriptionService {
 	}
 	public List<Prescription> getPrescriptionByDate(LocalDate date) {
 		return getPrescriptionsByDate(date);
+	}
+	
+	public Prescription updatePrescriptionPaymentsById(UUID id) {
+		Optional<Prescription> prescription = prescriptionRepository.findById(id);
+		if (prescription.isPresent()) {
+			Prescription updatePrescription = prescription.get();
+			updatePrescription.setPayments(true);
+			return prescriptionRepository.save(updatePrescription);
+		}
+		else
+		{
+			throw new RuntimeException("No prescription is found for ID: " + id);
+		}
 	}
 }

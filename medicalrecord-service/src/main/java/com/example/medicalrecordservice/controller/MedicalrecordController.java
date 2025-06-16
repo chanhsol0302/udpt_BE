@@ -41,4 +41,10 @@ public class MedicalrecordController {
     	List<Medicalrecord> records = medicalrecordService.getMedicalrecordByAppointmentId(appointmentId);
     	return new ResponseEntity<>(records, HttpStatus.OK);
     }
+    
+    @PutMapping("updatePayments/{id}")
+    public ResponseEntity<Medicalrecord> updateMedicalrecordPaymentsById(@PathVariable UUID id) {
+    	Medicalrecord record = medicalrecordService.updatePayments(id);
+    	return new ResponseEntity<>(record, HttpStatus.OK);
+    }
 }
