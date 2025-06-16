@@ -9,10 +9,12 @@ import com.example.medicalrecordservice.dto.PatientResponse;
 import com.example.medicalrecordservice.dto.PrescriptionCreateResponse;
 import com.example.medicalrecordservice.dto.TreatmentResponse;
 import com.example.medicalrecordservice.dto.UserResponse;
+import com.example.common.dto.EmailMessage;
+import com.example.medicalrecordservice.config.RabbitMQConfig;
 import com.example.medicalrecordservice.repository.MedicalrecordRepository;
 import com.example.medicalrecordservice.client.AppointmentServiceClient;
 import com.example.medicalrecordservice.client.IllnessServiceClient;
-import com.example.medicalrecordservice.client.NotificationServiceClient;
+//import com.example.medicalrecordservice.client.NotificationServiceClient;
 import com.example.medicalrecordservice.client.PatientServiceClient;
 import com.example.medicalrecordservice.client.PrescriptionServiceClient;
 import com.example.medicalrecordservice.client.TreatmentServiceClient;
@@ -29,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @Service
 public class MedicalrecordService {
@@ -44,8 +47,8 @@ public class MedicalrecordService {
 	@Autowired
 	private AppointmentServiceClient appointmentServiceClient;
 	
-	@Autowired
-	private NotificationServiceClient notificationServiceClient;
+	//@Autowired
+	//private NotificationServiceClient notificationServiceClient;
 	
 	@Autowired
 	private PatientServiceClient patientServiceClient;
@@ -55,6 +58,9 @@ public class MedicalrecordService {
 	
 	@Autowired
 	private IllnessServiceClient illnessServiceClient;
+	
+	@Autowired
+    private RabbitTemplate rabbitTemplate;
 	
 	public Medicalrecord createMedicalrecord(MedicalrecordCreateRequest request) {
 		Medicalrecord medicalrecord = new Medicalrecord();
@@ -202,8 +208,27 @@ public class MedicalrecordService {
         String emailBody = emailBodyBuilder.toString();
 
         // Sau đó bạn gọi dịch vụ gửi mail
-        notificationServiceClient.SendMail(user.getEmail(), "Chi tiết Hồ sơ Bệnh án của bạn", emailBody);
-		return medicalrecord;
+        //notificationServiceClient.SendMail(user.getEmail(), "Chi tiết Hồ sơ Bệnh án của bạn", emailBody);
+		// Thay thế bằng RabbitMQ
+        EmailMessage emailMessage = new EmailMessage(
+                user.getEmail(),
+                "Chi tiết Hồ sơ Bệnh án của bạn",
+                emailBody,
+                medicalrecord.getPatientName()
+            );
+
+            try {
+                // Gửi tin nhắn đến RabbitMQ
+                rabbitTemplate.convertAndSend(
+                    RabbitMQConfig.EMAIL_EXCHANGE,
+                    RabbitMQConfig.EMAIL_ROUTING_KEY,
+                    emailMessage
+                );
+                System.out.println("Email message sent to RabbitMQ for: " + user.getEmail());
+            } catch (Exception e) {
+                System.err.println("Failed to send email message to RabbitMQ: " + e.getMessage());
+            }
+        return medicalrecord;
 	}
 	
 	public List<Medicalrecord> getMedicalrecordByPatientId(UUID patientId) {

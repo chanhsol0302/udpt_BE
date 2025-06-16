@@ -11,7 +11,7 @@ public class NotificationService {
 	private JavaMailSender mailSender;
 	
 	// Gửi mail thanh toán
-	public void SendMail(String toEmail, String subject, String body) {
+	public void sendMail(String toEmail, String subject, String body) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		
 		message.setFrom("chanhsol0302@gmail.com");

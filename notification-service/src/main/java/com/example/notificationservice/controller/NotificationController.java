@@ -19,7 +19,7 @@ public class NotificationController {
             @RequestParam String subject,
             @RequestParam String body) {
         try {
-            notificationService.SendMail(to, subject, body);
+            notificationService.sendMail(to, subject, body);
             return new ResponseEntity<>("Email sent successfully to " + to, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error sending email: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
