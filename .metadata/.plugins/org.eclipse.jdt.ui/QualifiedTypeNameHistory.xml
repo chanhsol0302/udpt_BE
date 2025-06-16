@@ -24,4 +24,6 @@
     <fullyQualifiedTypeName name="com.example.medicalrecordservice.dto.TreatmentResponse"/>
     <fullyQualifiedTypeName name="com.example.medicalrecordservice.client.TreatmentServiceClient"/>
     <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
+    <fullyQualifiedTypeName name="com.example.common.dto.EmailMessage"/>
+    <fullyQualifiedTypeName name="com.example.prescriptionservice.config.RabbitMQConfig"/>
 </qualifiedTypeNameHistroy>

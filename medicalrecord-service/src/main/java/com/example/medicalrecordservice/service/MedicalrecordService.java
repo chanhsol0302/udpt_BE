@@ -213,8 +213,7 @@ public class MedicalrecordService {
         EmailMessage emailMessage = new EmailMessage(
                 user.getEmail(),
                 "Chi tiết Hồ sơ Bệnh án của bạn",
-                emailBody,
-                medicalrecord.getPatientName()
+                emailBody
             );
 
             try {

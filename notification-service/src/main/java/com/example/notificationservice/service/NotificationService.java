@@ -21,7 +21,7 @@ public class NotificationService {
 		
 		try {
 			mailSender.send(message);
-			System.out.println("Email Send Successfully to " + toEmail);
+			//System.out.println("Email Send Successfully to " + toEmail);
 		}
 		catch (Exception e) {
 			throw new RuntimeException("Failed to send email", e);

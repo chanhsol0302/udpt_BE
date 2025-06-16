@@ -4,11 +4,12 @@ import com.example.prescriptionservice.model.Medicine;
 import com.example.prescriptionservice.model.Prescription;
 import com.example.prescriptionservice.dto.PatientResponse;
 import com.example.prescriptionservice.dto.UserResponse;
+import com.example.common.dto.EmailMessage;
 import com.example.prescriptionservice.client.DrugInventoryServiceClient;
-import com.example.prescriptionservice.client.NotificationServiceClient;
 import com.example.prescriptionservice.client.PatientServiceClient;
 import com.example.prescriptionservice.client.UserServiceClient;
 import com.example.prescriptionservice.dto.PrescriptionCreateRequest;
+import com.example.prescriptionservice.config.RabbitMQConfig;
 
 import com.example.prescriptionservice.repository.PrescriptionRepository;
 
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @Service
 public class PrescriptionService {
@@ -36,8 +38,11 @@ public class PrescriptionService {
 	@Autowired
 	private UserServiceClient userServiceClient;
 	
+	//@Autowired
+	//private NotificationServiceClient notificationServiceClient;
+	
 	@Autowired
-	private NotificationServiceClient notificationServiceClient;
+    private RabbitTemplate rabbitTemplate;
 	
 	public Prescription createPrescription(PrescriptionCreateRequest request) {
 		Prescription prescription = new Prescription();
@@ -114,7 +119,24 @@ public class PrescriptionService {
 			PatientResponse patient = patientServiceClient.getPatientById(preparingPres.getPatientId());
 	        UserResponse user = userServiceClient.getUserById(patient.getUserId());
 	        
-	        notificationServiceClient.SendMail(user.getEmail(), "THÔNG BÁO BỆNH VIỆN", "Bạn đã có thể đến quầy để lấy thuốc.");
+	        EmailMessage emailMessage = new EmailMessage(
+	                user.getEmail(),
+	                "THÔNG BÁO BỆNH VIỆN",
+	                "Bạn đã có thể đến quầy để lấy thuốc."
+	            );
+
+	            try {
+	                // Gửi tin nhắn đến RabbitMQ
+	                rabbitTemplate.convertAndSend(
+	                    RabbitMQConfig.EMAIL_EXCHANGE,
+	                    RabbitMQConfig.EMAIL_ROUTING_KEY,
+	                    emailMessage
+	                );
+	                System.out.println("Email message sent to RabbitMQ for: " + user.getEmail());
+	            } catch (Exception e) {
+	                System.err.println("Failed to send email message to RabbitMQ: " + e.getMessage());
+	            }
+	        //notificationServiceClient.SendMail(user.getEmail(), "THÔNG BÁO BỆNH VIỆN", "Bạn đã có thể đến quầy để lấy thuốc.");
 	        
 			return prescriptionRepository.save(preparingPres);
 		}

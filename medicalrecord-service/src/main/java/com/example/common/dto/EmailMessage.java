@@ -16,5 +16,4 @@ public class EmailMessage implements Serializable {
     private String to;
     private String subject;
     private String body;
-    private String patientName; // Thêm vào để dùng trong email body
 }
