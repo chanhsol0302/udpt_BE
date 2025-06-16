@@ -96,6 +96,7 @@ public class MedicalrecordService {
 		
 		// Chuẩn bị dữ liệu cho Prescription Service
         PrescriptionCreateRequest prescriptionRequest = new PrescriptionCreateRequest();
+        prescriptionRequest.setPatientId(request.getPatientId());
         prescriptionRequest.setMedicines(request.getMedicines());
 		
         ResponseEntity<PrescriptionCreateResponse> prescriptionResponse = prescriptionServiceClient.createPrescription(prescriptionRequest);
@@ -172,7 +173,7 @@ public class MedicalrecordService {
             emailBodyBuilder.append("Không có phương pháp điều trị nào.\n\n");
         }
         
-        // Thông tin về thuốc (nếu có)
+        // Thông tin về thuốc
         List<Medicine> medicines = request.getMedicines();
         if (medicines != null && !medicines.isEmpty()) {
             emailBodyBuilder.append("Đơn thuốc:\n");
@@ -188,7 +189,7 @@ public class MedicalrecordService {
             emailBodyBuilder.append("Không có đơn thuốc.\n\n");
         }
 
-        // Thông tin về giá cả (có thể làm tròn để dễ đọc)
+        // Thông tin về giá cả
         emailBodyBuilder.append("Thông tin thanh toán:\n");
         emailBodyBuilder.append("Giá thuốc: ").append(String.format("%.0f", medicalrecord.getMedicinePrice())).append(" VND\n");
         emailBodyBuilder.append("Giá điều trị: ").append(String.format("%.0f", medicalrecord.getTreatmentPrice())).append(" VND\n");

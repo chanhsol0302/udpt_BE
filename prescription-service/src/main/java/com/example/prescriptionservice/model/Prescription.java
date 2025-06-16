@@ -19,6 +19,9 @@ public class Prescription {
 	@Id
     //@GeneratedValue - không phải JPA nên không có phần tự động sinh như này
     private UUID id;
+	
+	@Field("patient_id")
+	private UUID patientId;
 
     private String status = "PENDING";
 

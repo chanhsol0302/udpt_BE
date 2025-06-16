@@ -42,4 +42,10 @@ public class PrescriptionController {
     	Prescription prescription = prescriptionService.updatePrescriptionPaymentsById(id);
     	return new ResponseEntity<>(prescription, HttpStatus.OK);
     }
+    
+    @PutMapping("/updateStatus")
+    public ResponseEntity<Prescription> updatePrescriptionStatusById(@RequestParam UUID id, @RequestParam String status) {
+    	Prescription prescription = prescriptionService.updateStatus(id, status);
+    	return new ResponseEntity<>(prescription, HttpStatus.OK);
+    }
 }

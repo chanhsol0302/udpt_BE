@@ -2,7 +2,12 @@ package com.example.prescriptionservice.service;
 
 import com.example.prescriptionservice.model.Medicine;
 import com.example.prescriptionservice.model.Prescription;
+import com.example.prescriptionservice.dto.PatientResponse;
+import com.example.prescriptionservice.dto.UserResponse;
 import com.example.prescriptionservice.client.DrugInventoryServiceClient;
+import com.example.prescriptionservice.client.NotificationServiceClient;
+import com.example.prescriptionservice.client.PatientServiceClient;
+import com.example.prescriptionservice.client.UserServiceClient;
 import com.example.prescriptionservice.dto.PrescriptionCreateRequest;
 
 import com.example.prescriptionservice.repository.PrescriptionRepository;
@@ -25,9 +30,19 @@ public class PrescriptionService {
 	@Autowired
 	private DrugInventoryServiceClient drugClient;
 	
+	@Autowired
+	private PatientServiceClient patientServiceClient;
+	
+	@Autowired
+	private UserServiceClient userServiceClient;
+	
+	@Autowired
+	private NotificationServiceClient notificationServiceClient;
+	
 	public Prescription createPrescription(PrescriptionCreateRequest request) {
 		Prescription prescription = new Prescription();
 		prescription.setId(UUID.randomUUID());
+		prescription.setPatientId(request.getPatientId());
 		prescription.setMedicines(request.getMedicines());
 		
 		// Tính medicine price
@@ -86,7 +101,28 @@ public class PrescriptionService {
 		}
 		else
 		{
-			throw new RuntimeException("No prescription is found for ID: " + id);
+			throw new RuntimeException("No prescription is found with ID: " + id + " for payments update");
 		}
 	}
+	
+	public Prescription updateStatus(UUID id, String status) {
+		Optional<Prescription> prescription = prescriptionRepository.findById(id);
+		if (prescription.isPresent()) {
+			Prescription preparingPres = prescription.get();
+			preparingPres.setStatus(status);
+			// Nếu status = "PREPARED thì gửi mail
+			PatientResponse patient = patientServiceClient.getPatientById(preparingPres.getPatientId());
+	        UserResponse user = userServiceClient.getUserById(patient.getUserId());
+	        
+	        notificationServiceClient.SendMail(user.getEmail(), "THÔNG BÁO BỆNH VIỆN", "Bạn đã có thể đến quầy để lấy thuốc.");
+	        
+			return prescriptionRepository.save(preparingPres);
+		}
+		else
+		{
+			throw new RuntimeException("No prescription is found with ID:" + id + " for status update");
+		}
+	}
+	
+	
 }
