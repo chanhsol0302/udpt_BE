@@ -26,4 +26,11 @@ public class StaffController {
 		Staff staff = staffService.getStaffByUserId(userId);
 		return new ResponseEntity<>(staff, HttpStatus.OK);
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Staff> getStaffById(@PathVariable UUID id) {
+		Staff staff = staffService.getStaffById(id);
+		return new ResponseEntity<>(staff, HttpStatus.OK);
+	}
+	
 }

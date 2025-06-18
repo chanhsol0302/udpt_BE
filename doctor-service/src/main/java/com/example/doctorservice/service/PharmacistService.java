@@ -17,4 +17,9 @@ public class PharmacistService {
 				.orElseThrow(() -> new RuntimeException("No pharmacist is found with userID: " + userId));
 	}
 	
+	public Pharmacist getPharmacistById(UUID id) {
+		return pharmacistRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("No pharmacist is found with id " + id));
+	}
+	
 }
