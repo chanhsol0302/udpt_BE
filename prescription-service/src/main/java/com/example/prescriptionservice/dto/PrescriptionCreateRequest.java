@@ -8,5 +8,6 @@ import java.util.UUID;
 @Data
 public class PrescriptionCreateRequest {
 	private UUID patientId;
+	private UUID medicalrecordId;
     private List<Medicine> medicines;
 }

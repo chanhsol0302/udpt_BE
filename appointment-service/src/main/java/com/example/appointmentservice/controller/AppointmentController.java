@@ -68,4 +68,16 @@ public class AppointmentController {
         }
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
+    
+    @GetMapping("/byDate/{appointmentDate}")
+    public ResponseEntity<List<AppointmentDTO>> getAppointmentsByDate(
+            @PathVariable LocalDate appointmentDate) {
+
+        List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDate(appointmentDate);
+
+        if (appointments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
+    }
 }

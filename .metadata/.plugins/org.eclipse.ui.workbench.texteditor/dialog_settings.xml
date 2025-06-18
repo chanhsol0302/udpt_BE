@@ -5,6 +5,7 @@
 		<item key="selection" value="/*@GetMapping(&quot;/{id}&quot;)"/>
 		<item key="replaceBarOpen" value="false"/>
 		<list key="findhistory">
+			<item value="crea"/>
 			<item value="/*@GetMapping(&quot;/{id}&quot;)"/>
 			<item value="public List&lt;DoctorDTO&gt; getDoctorsBySpecialtyId(UUID specialtyId) {"/>
 			<item value="public ResponseEntity&lt;PatientResponse&gt; getPatientById(@PathVariable UUID id) {"/>

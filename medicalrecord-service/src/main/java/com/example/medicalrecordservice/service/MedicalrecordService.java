@@ -103,8 +103,7 @@ public class MedicalrecordService {
 		// Chuẩn bị dữ liệu cho Prescription Service
         PrescriptionCreateRequest prescriptionRequest = new PrescriptionCreateRequest();
         prescriptionRequest.setPatientId(request.getPatientId());
-        prescriptionRequest.setMedicines(request.getMedicines());
-		
+        
         ResponseEntity<PrescriptionCreateResponse> prescriptionResponse = prescriptionServiceClient.createPrescription(prescriptionRequest);
         
         // Lấy dữ liệu trả về từ prescription service
@@ -254,11 +253,12 @@ public class MedicalrecordService {
 		return records;
 	}
 	
-	public Medicalrecord updatePayments(UUID id) {
+	public Medicalrecord updatePayments(UUID id, UUID staffId) {
 		Optional<Medicalrecord> record = medicalrecordRepository.findById(id);
 		if (record.isPresent()) {
 			Medicalrecord UpdateRecord = record.get();
 			UpdateRecord.setPayments(true);
+			UpdateRecord.setStaffId(staffId);
 			// Cập nhật cho đơn thuốc
 			prescriptionServiceClient.updatePrescriptionPaymentsById(UpdateRecord.getPrescriptionId());
 			return medicalrecordRepository.save(UpdateRecord);

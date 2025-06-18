@@ -64,4 +64,7 @@ public class Medicalrecord {
     @LastModifiedDate
     @Field("updated_at")
     private LocalDateTime updatedAt;
+    
+    @Field("staff_id")
+    private UUID staffId;
 }

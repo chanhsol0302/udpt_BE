@@ -89,6 +89,14 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
 	
+	public List<AppointmentDTO> getAppointmentsByDate(LocalDate appointmentDate) {
+        List<Appointment> appointments = appointmentRepository.findByAppointmentDate(appointmentDate);
+        return appointments.stream()
+                .map(this::convertToAppointmentDTO)
+                .collect(Collectors.toList());
+    }
+	
+	
 	private AppointmentDTO convertToAppointmentDTO(Appointment appointment) {
         AppointmentDTO response = new AppointmentDTO();
         response.setId(appointment.getId());

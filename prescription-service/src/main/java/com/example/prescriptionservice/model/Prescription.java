@@ -22,6 +22,12 @@ public class Prescription {
 	
 	@Field("patient_id")
 	private UUID patientId;
+	
+	@Field("medicalrecord_id")
+	private UUID medicalrecordId;
+	
+	@Field("pharmacist_id")
+	private UUID pharmacistId;
 
     private String status = "PENDING";
 

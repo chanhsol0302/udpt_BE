@@ -42,9 +42,9 @@ public class MedicalrecordController {
     	return new ResponseEntity<>(records, HttpStatus.OK);
     }
     
-    @PutMapping("updatePayments/{id}")
-    public ResponseEntity<Medicalrecord> updateMedicalrecordPaymentsById(@PathVariable UUID id) {
-    	Medicalrecord record = medicalrecordService.updatePayments(id);
+    @PutMapping("updatePayments")
+    public ResponseEntity<Medicalrecord> updateMedicalrecordPaymentsById(@RequestParam UUID id, @RequestParam UUID staffId) {
+    	Medicalrecord record = medicalrecordService.updatePayments(id, staffId);
     	return new ResponseEntity<>(record, HttpStatus.OK);
     }
 }

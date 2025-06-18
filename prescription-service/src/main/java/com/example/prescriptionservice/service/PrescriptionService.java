@@ -48,6 +48,7 @@ public class PrescriptionService {
 		Prescription prescription = new Prescription();
 		prescription.setId(UUID.randomUUID());
 		prescription.setPatientId(request.getPatientId());
+		prescription.setMedicalrecordId(request.getMedicalrecordId());		
 		prescription.setMedicines(request.getMedicines());
 		
 		// Tính medicine price
@@ -110,32 +111,48 @@ public class PrescriptionService {
 		}
 	}
 	
+	public Prescription preparingPrescription(UUID id, UUID pharmasticId) {
+		Optional<Prescription> prescription = prescriptionRepository.findById(id);
+		if (prescription.isPresent()) {
+			Prescription preparingPres = prescription.get();
+			preparingPres.setPharmacistId(pharmasticId);
+			preparingPres.setStatus("PREPARING");
+			return prescriptionRepository.save(preparingPres);
+		}
+		else
+		{
+			throw new RuntimeException("No prescription is found with ID:" + id + " for status update");
+		}
+	}
+	
 	public Prescription updateStatus(UUID id, String status) {
 		Optional<Prescription> prescription = prescriptionRepository.findById(id);
 		if (prescription.isPresent()) {
 			Prescription preparingPres = prescription.get();
 			preparingPres.setStatus(status);
-			// Nếu status = "PREPARED thì gửi mail
-			PatientResponse patient = patientServiceClient.getPatientById(preparingPres.getPatientId());
-	        UserResponse user = userServiceClient.getUserById(patient.getUserId());
-	        
-	        EmailMessage emailMessage = new EmailMessage(
-	                user.getEmail(),
-	                "THÔNG BÁO BỆNH VIỆN",
-	                "Bạn đã có thể đến quầy để lấy thuốc."
-	            );
-
-	            try {
-	                // Gửi tin nhắn đến RabbitMQ
-	                rabbitTemplate.convertAndSend(
-	                    RabbitMQConfig.EMAIL_EXCHANGE,
-	                    RabbitMQConfig.EMAIL_ROUTING_KEY,
-	                    emailMessage
-	                );
-	                System.out.println("Email message sent to RabbitMQ for: " + user.getEmail());
-	            } catch (Exception e) {
-	                System.err.println("Failed to send email message to RabbitMQ: " + e.getMessage());
-	            }
+			// Nếu status = "PREPARED" thì gửi mail
+			if ("PREPARED".equals(status)) {
+				PatientResponse patient = patientServiceClient.getPatientById(preparingPres.getPatientId());
+		        UserResponse user = userServiceClient.getUserById(patient.getUserId());
+		        
+		        EmailMessage emailMessage = new EmailMessage(
+		                user.getEmail(),
+		                "THÔNG BÁO BỆNH VIỆN",
+		                "Bạn đã có thể đến quầy để lấy thuốc."
+		            );
+	
+		            try {
+		                // Gửi tin nhắn đến RabbitMQ
+		                rabbitTemplate.convertAndSend(
+		                    RabbitMQConfig.EMAIL_EXCHANGE,
+		                    RabbitMQConfig.EMAIL_ROUTING_KEY,
+		                    emailMessage
+		                );
+		                System.out.println("Email message sent to RabbitMQ for: " + user.getEmail());
+		            } catch (Exception e) {
+		                System.err.println("Failed to send email message to RabbitMQ: " + e.getMessage());
+		            }
+			}
 	        //notificationServiceClient.SendMail(user.getEmail(), "THÔNG BÁO BỆNH VIỆN", "Bạn đã có thể đến quầy để lấy thuốc.");
 	        
 			return prescriptionRepository.save(preparingPres);
