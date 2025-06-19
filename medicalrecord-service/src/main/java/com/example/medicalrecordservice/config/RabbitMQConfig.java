@@ -21,7 +21,7 @@ public class RabbitMQConfig {
     
     // Report part
     public static final String PATIENT_QUEUE = "patient.queue";
-    public static final String PATIENT_EXCHANGE = "patient.exchage";
+    public static final String PATIENT_EXCHANGE = "patient.exchange";
     public static final String PATIENT_ROUTING_KEY = "patient.routingkey";
 
     @Bean
@@ -54,6 +54,7 @@ public class RabbitMQConfig {
     }
     
     // Bean Binding mới cho tin nhắn "patient"
+    @Bean
     public Binding patientBinding(Queue patientQueue, TopicExchange patientExchange) {
     	return BindingBuilder.bind(patientQueue)
     			.to(patientExchange)
