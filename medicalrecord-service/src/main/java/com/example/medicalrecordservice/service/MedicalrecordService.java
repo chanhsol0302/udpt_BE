@@ -116,7 +116,11 @@ public class MedicalrecordService {
         medicalrecord.setTotalPrice(treatmentTotalPrice + medicinePrice);
         // Đã set payments = false ở model 
         
+        // Lưu xuống DB
         medicalrecordRepository.save(medicalrecord);
+        
+        // Gửi tin nhắn đến service Report
+        sendPatientMessage(medicalrecord.getVisitDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         
         // Cập nhật khám thành công (Appointment.status = 2)
         appointmentServiceClient.updateStatus(request.getAppointmentId(), 2);
@@ -227,6 +231,19 @@ public class MedicalrecordService {
                 System.err.println("Failed to send email message to RabbitMQ: " + e.getMessage());
             }
         return medicalrecord;
+	}
+	
+	public void sendPatientMessage(String date) {
+		try {
+			rabbitTemplate.convertAndSend(
+					RabbitMQConfig.PATIENT_EXCHANGE,
+					RabbitMQConfig.PATIENT_ROUTING_KEY,
+					date
+			);
+			System.out.println("Date message to RabbitMQ: " + date);
+		} catch (Exception e) {
+			System.out.println("Failed to send date message  to RabbitMQ: " + e.getMessage());
+		}
 	}
 	
 	public List<Medicalrecord> getMedicalrecordByPatientId(UUID patientId) {
