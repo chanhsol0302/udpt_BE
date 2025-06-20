@@ -19,6 +19,10 @@ public class RabbitMQConfig {
     public static final String PATIENT_EXCHANGE = "patient.exchange";
     public static final String PATIENT_ROUTING_KEY = "patient.routingkey";
     
+    public static final String PRESCRIPTION_QUEUE = "prescription.queue";
+    public static final String PRESCRIPTION_EXCHANGE = "prescription.exchange";
+    public static final String PRESCRIPTION_ROUTING_KEY = "prescription.routingkey";
+    
     // Bean queue mới cho tin nhắn "patient"
     @Bean
     public Queue patientQueue() {
@@ -37,6 +41,24 @@ public class RabbitMQConfig {
     	return BindingBuilder.bind(patientQueue)
     			.to(patientExchange)
     			.with(PATIENT_ROUTING_KEY);
+    }
+    
+    // Prescription Report
+    @Bean
+    public Queue prescriptionQueue() {
+    	return new Queue(PRESCRIPTION_QUEUE, true);
+    }
+    
+    @Bean
+    public TopicExchange prescriptionExchange() {
+    	return new TopicExchange(PRESCRIPTION_EXCHANGE);
+    }
+    
+    @Bean
+    public Binding prescriptionBinding(Queue prescriptionQueue, TopicExchange prescriptionExchange) {
+    	return BindingBuilder.bind(prescriptionExchange)
+    			.to(prescriptionExchange)
+    			.with(PRESCRIPTION_ROUTING_KEY);
     }
     
     @Bean

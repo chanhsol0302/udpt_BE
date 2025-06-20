@@ -65,6 +65,9 @@ public class PrescriptionService {
 		
 		prescriptionRepository.save(prescription);
 		
+		// Gửi dữ liệu đến report service
+		sendPrescriptionMessage(prescription.getCreatedAt().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		
 		//Update số lượng ở kho
 		if (request.getMedicines() != null && !request.getMedicines().isEmpty()) {
 			for (Medicine medicine : request.getMedicines()) {
@@ -76,6 +79,19 @@ public class PrescriptionService {
 			}
 		}
 		return prescription;
+	}
+	
+	public void sendPrescriptionMessage(String date) {
+		try {
+			rabbitTemplate.convertAndSend(
+					RabbitMQConfig.PRESCRIPTION_EXCHANGE,
+					RabbitMQConfig.PRESCRIPTION_ROUTING_KEY,
+					date
+			);
+			System.out.println("Date message to RabbitMQ: " + date);
+		} catch (Exception e) {
+			System.out.println("Failed to send date message  to RabbitMQ: " + e.getMessage());
+		}
 	}
 	
 	public Prescription getPrescriptionById(UUID id) {
