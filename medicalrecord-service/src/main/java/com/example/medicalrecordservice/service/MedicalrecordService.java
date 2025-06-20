@@ -101,20 +101,26 @@ public class MedicalrecordService {
 		medicalrecord.setCreatedAt(LocalDateTime.now());
 		
 		// Chuẩn bị dữ liệu cho Prescription Service
-        PrescriptionCreateRequest prescriptionRequest = new PrescriptionCreateRequest();
-        prescriptionRequest.setPatientId(request.getPatientId());
-        prescriptionRequest.setMedicines(request.getMedicines());
+		if (request.getMedicines() != null && !request.getMedicines().isEmpty()) {
+			PrescriptionCreateRequest prescriptionRequest = new PrescriptionCreateRequest();
+			prescriptionRequest.setPatientId(request.getPatientId());
+			prescriptionRequest.setMedicines(request.getMedicines());
         
-        ResponseEntity<PrescriptionCreateResponse> prescriptionResponse = prescriptionServiceClient.createPrescription(prescriptionRequest);
-        
-        // Lấy dữ liệu trả về từ prescription service
-        UUID prescriptionId = prescriptionResponse.getBody().getId();
-        medicalrecord.setPrescriptionId(prescriptionId);
-        
-        float medicinePrice = prescriptionResponse.getBody().getMedicinePrice();
-        medicalrecord.setMedicinePrice(medicinePrice);
+			ResponseEntity<PrescriptionCreateResponse> prescriptionResponse = prescriptionServiceClient.createPrescription(prescriptionRequest);
 		
-        medicalrecord.setTotalPrice(treatmentTotalPrice + medicinePrice);
+			// Lấy dữ liệu trả về từ prescription service
+			UUID prescriptionId = prescriptionResponse.getBody().getId();
+			medicalrecord.setPrescriptionId(prescriptionId);
+		
+			float medicinePrice = prescriptionResponse.getBody().getMedicinePrice();
+			medicalrecord.setMedicinePrice(medicinePrice);
+		}
+		else
+		{
+			medicalrecord.setMedicinePrice(0);
+			medicalrecord.setPrescriptionId(null);
+		}
+        medicalrecord.setTotalPrice(medicalrecord.getTreatmentPrice() + medicalrecord.getMedicinePrice());
         // Đã set payments = false ở model 
         
         // Lưu xuống DB

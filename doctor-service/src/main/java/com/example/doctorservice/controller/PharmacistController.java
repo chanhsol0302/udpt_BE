@@ -25,12 +25,5 @@ public class PharmacistController {
 	public ResponseEntity<Pharmacist> getPharmacistByUserId(@PathVariable UUID userId) {
 		Pharmacist pharmacist = pharmacistService.getPharmacistByUserId(userId);
 		return new ResponseEntity<>(pharmacist, HttpStatus.OK);
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Pharmacist> getPharmacistById(@PathVariable UUID id) {
-		Pharmacist pharmacist = pharmacistService.getPharmacistById(id);
-		return new ResponseEntity<>(pharmacist, HttpStatus.OK);
-	}
-	
+	}	
 }

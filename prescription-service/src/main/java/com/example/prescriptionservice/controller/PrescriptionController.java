@@ -15,6 +15,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/prescriptions")
+@CrossOrigin(origins = "http://localhost")
 public class PrescriptionController {
 	@Autowired
     private PrescriptionService prescriptionService;

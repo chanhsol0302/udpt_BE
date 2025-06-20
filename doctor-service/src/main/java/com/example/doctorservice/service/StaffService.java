@@ -16,9 +16,4 @@ public class StaffService {
 		return staffRepository.findByUserId(userId)
 				.orElseThrow(() -> new RuntimeException("No staff is found with userID: " + userId));
 	}
-	
-	public Staff getStaffById(UUID id) {
-		return staffRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("No staff is found with id: " + id));
-	}
 }
