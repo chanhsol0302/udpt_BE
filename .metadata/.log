@@ -8619,3 +8619,204 @@ Binding(CTRL+SHIFT+T,
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 10:35:39.960
 !MESSAGE Boot project REMOVED: report-service-1
+!SESSION 2025-06-20 15:05:13.872 -----------------------------------------------
+eclipse.buildId=4.35.0.20250306-0811
+java.version=22.0.1
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-06-20 15:05:18.009
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-06-20 15:05:24.721
+!MESSAGE Logback config file: D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.7.0.20241001-1350.xml
+
+!ENTRY org.eclipse.ui 2 0 2025-06-20 15:05:25.797
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2025-06-20 15:05:25.797
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2025-06-20 15:05:26.451
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2025-06-20 15:05:26.451
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-06-20 15:05:31.171
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\sol'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.470
+!MESSAGE Boot project ADDED: appointment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.471
+!MESSAGE Starting Boot LS...
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.554
+!MESSAGE Started Boot LS process
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.564
+!MESSAGE Boot project ADDED: auth-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.575
+!MESSAGE Boot project ADDED: doctor-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.583
+!MESSAGE Boot project ADDED: drugInventory-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.591
+!MESSAGE Boot project ADDED: illness-service
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2025-06-20 15:05:31.594
+!MESSAGE Command list starting LS: org.springframework.tooling.boot.ls
+START:
+C:\Program Files\Java\jdk-22\bin\javaw.exe
+-Dsts.lsp.client=eclipse
+-Xmx1024m
+-XX:TieredStopAtLevel=1
+-Dspring.config.location=classpath:/application.properties
+-Xlog:jni+resolve=off
+-XX:ErrorFile=D:/Users/Desktop/HCMUS_HK8/UDPT/QuanLyBenhVien/.metadata/.plugins/org.springframework.tooling.boot.ls/fatal-error-spring-boot_1750406731592
+-Dlanguageserver.hover-timeout=225
+-jar
+C:\Users\sol\.p2\pool\plugins\org.springframework.tooling.boot.ls_1.61.1.202503181316\servers\spring-boot-language-server\spring-boot-language-server-1.61.1-SNAPSHOT-exec.jar
+END
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.594
+!MESSAGE DelegatingStreamConnectionProvider - Starting Boot LS
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.600
+!MESSAGE Boot project ADDED: medicalrecord-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.607
+!MESSAGE Boot project ADDED: notification-service
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2025-06-20 15:05:31.607
+!MESSAGE Started org.springframework.tooling.boot.ls LS process 16948
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.614
+!MESSAGE Boot project ADDED: patient-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.621
+!MESSAGE Boot project ADDED: prescription-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.628
+!MESSAGE Boot project ADDED: report-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.630
+!MESSAGE Boot project ADDED: treatment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 15:05:31.632
+!MESSAGE Boot project ADDED: user-service
+
+!ENTRY org.eclipse.lsp4e 2 0 2025-06-20 15:06:14.202
+!MESSAGE Javadoc unavailable. Failed to obtain it.
+!STACK 0
+java.lang.InterruptedException
+	at java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:386)
+	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2096)
+	at org.eclipse.lsp4e.jdt.LSJavaHoverProvider.getHoverInfo2(LSJavaHoverProvider.java:66)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:165)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:89)
+	at org.eclipse.jface.text.TextViewerHoverManager$1.run(TextViewerHoverManager.java:155)
+!SESSION 2025-06-20 18:02:47.125 -----------------------------------------------
+eclipse.buildId=4.35.0.20250306-0811
+java.version=22.0.1
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-06-20 18:02:51.717
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-06-20 18:03:14.096
+!MESSAGE Logback config file: D:\Users\Desktop\HCMUS_HK8\UDPT\QuanLyBenhVien\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.7.0.20241001-1350.xml
+
+!ENTRY org.eclipse.ui 2 0 2025-06-20 18:03:14.821
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2025-06-20 18:03:14.821
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2025-06-20 18:03:15.166
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2025-06-20 18:03:15.166
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2025-06-20 18:03:19.713
+!MESSAGE Command list starting LS: org.springframework.tooling.boot.ls
+START:
+C:\Program Files\Java\jdk-22\bin\javaw.exe
+-Dsts.lsp.client=eclipse
+-Xmx1024m
+-XX:TieredStopAtLevel=1
+-Dspring.config.location=classpath:/application.properties
+-Xlog:jni+resolve=off
+-XX:ErrorFile=D:/Users/Desktop/HCMUS_HK8/UDPT/QuanLyBenhVien/.metadata/.plugins/org.springframework.tooling.boot.ls/fatal-error-spring-boot_1750417399712
+-Dlanguageserver.hover-timeout=225
+-jar
+C:\Users\sol\.p2\pool\plugins\org.springframework.tooling.boot.ls_1.61.1.202503181316\servers\spring-boot-language-server\spring-boot-language-server-1.61.1-SNAPSHOT-exec.jar
+END
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:19.713
+!MESSAGE DelegatingStreamConnectionProvider - Starting Boot LS
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2025-06-20 18:03:19.726
+!MESSAGE Started org.springframework.tooling.boot.ls LS process 16560
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.645
+!MESSAGE Boot project ADDED: appointment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.646
+!MESSAGE Starting Boot LS...
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.648
+!MESSAGE Started Boot LS process
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.648
+!MESSAGE Boot project ADDED: auth-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.653
+!MESSAGE Boot project ADDED: doctor-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.657
+!MESSAGE Boot project ADDED: drugInventory-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.676
+!MESSAGE Boot project ADDED: illness-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.681
+!MESSAGE Boot project ADDED: medicalrecord-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.686
+!MESSAGE Boot project ADDED: notification-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.687
+!MESSAGE Boot project ADDED: patient-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.700
+!MESSAGE Boot project ADDED: prescription-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.711
+!MESSAGE Boot project ADDED: report-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.716
+!MESSAGE Boot project ADDED: treatment-service
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-06-20 18:03:21.717
+!MESSAGE Boot project ADDED: user-service
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-06-20 18:03:21.761
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\sol'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.core.resources 2 10035 2025-06-20 18:08:30.662
+!MESSAGE The workspace will exit with unsaved changes in this session.

@@ -103,6 +103,7 @@ public class MedicalrecordService {
 		// Chuẩn bị dữ liệu cho Prescription Service
         PrescriptionCreateRequest prescriptionRequest = new PrescriptionCreateRequest();
         prescriptionRequest.setPatientId(request.getPatientId());
+        prescriptionRequest.setMedicines(request.getMedicines());
         
         ResponseEntity<PrescriptionCreateResponse> prescriptionResponse = prescriptionServiceClient.createPrescription(prescriptionRequest);
         
