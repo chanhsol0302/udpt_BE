@@ -56,7 +56,7 @@ public class RabbitMQConfig {
     
     @Bean
     public Binding prescriptionBinding(Queue prescriptionQueue, TopicExchange prescriptionExchange) {
-    	return BindingBuilder.bind(prescriptionExchange)
+    	return BindingBuilder.bind(prescriptionQueue)
     			.to(prescriptionExchange)
     			.with(PRESCRIPTION_ROUTING_KEY);
     }
