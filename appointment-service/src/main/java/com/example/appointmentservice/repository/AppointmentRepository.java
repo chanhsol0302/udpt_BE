@@ -21,7 +21,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 		+ "WHERE a.doctorId = :doctorId "
 		+ "AND a.specialtyId = :specialtyId "
 		+ "AND a.appointmentDate = :appointmentDate "
-		+ "GROUP BY a.appointmentShift HAVING COUNT(a) >= 10")
+		+ "AND a.status != 0 "
+		+ "GROUP BY a.appointmentShift HAVING COUNT(a) >= 12")
 	List<Integer> findHighDemandAppointmentShifts(
 			@Param("doctorId") UUID doctorId,
 			@Param("specialtyId") UUID specialtyId,
